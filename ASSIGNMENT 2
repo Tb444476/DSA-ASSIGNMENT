@@ -1,0 +1,168 @@
+#include <iostream>
+using namespace std;
+struct node
+{
+	int data;
+	node *next=NULL;
+};
+class ll
+{
+	node *head=NULL;
+    public:
+	    void atbeg(int x)
+	    {
+	    	if(head==NULL){
+	    		node *temp=new node;
+	    		head=temp;
+	    		temp->data=x;
+	    	}
+	    	else{
+	    		node *temp=new node;
+	    		temp->data=x;
+	    		temp->next=head;
+	    		head=temp;
+	    	}
+	    }
+		void atend(int x)
+		{
+			if(head==NULL){
+				node *temp=new node;
+				head=temp;
+				temp->data=x;
+			}
+			else{
+				node *temp, *temp1;
+				temp=head;
+				while(temp->next!=NULL){
+					temp=temp->next;
+				}
+				temp1=new node;
+				temp->next=temp1;
+				temp1->data=x;
+                temp1->next=NULL;
+			}
+		}
+		void display()
+		{
+			if(head==NULL)
+			{
+			    cout<<"NULL"<<endl;
+				return;
+			}
+			node *temp=head;
+			while(temp!=NULL){
+				cout<<temp->data<<"->";
+				temp=temp->next;
+			}
+			cout<<"NULL"<<endl;
+		}
+		void deletef()
+		{
+			if(head==NULL)
+			{
+				return;
+			}
+			node *temp=head;
+			node *temp1=NULL;
+			head=temp->next;
+			delete temp;
+		}
+		void deletee()
+		{
+			if(head==NULL)
+			{
+				return;
+			}
+			node *temp=head;
+			node *temp1=NULL;
+			while(temp->next!=NULL){
+				temp1=temp;
+				temp=temp->next;
+			}
+			temp1->next=NULL;
+			delete temp;
+		}
+		void atpos(int x,int pos)
+		{
+			node *temp=head;
+			pos=pos-2;
+			while(pos-- && temp->next!=NULL){
+				temp=temp->next;
+			}
+			node *temp1=new node;
+            temp1->data=x;
+			temp1->next=temp->next;
+			temp->next=temp1;
+		}
+		void deletepos(int pos)
+		{
+			pos=pos-1;
+			node *temp=head;
+			node *temp1=NULL;
+			while(pos-- && temp->next!=NULL){
+				temp1=temp;
+				temp=temp->next;
+			}
+			if(head==NULL){
+			    return;
+			}
+			else if(temp1==NULL){
+			    temp1=temp->next;
+			    delete temp;
+			    head=temp1;
+			}
+			else{
+			    temp1->next=temp->next;
+			    delete temp;
+			}
+		}
+};
+int main()
+{
+	ll list;
+	list.atbeg(1);
+	list.atbeg(5);
+	list.atend(7);
+	list.atend(10);
+	int ch=0, key, pos;
+	while(ch!=8){
+		cout<<"1. Display"<<endl<<"2. Insert at first."<<endl<<"3. Insert at end."<<endl<<"4. Insert at position."<<endl<<"5. Delete first."<<endl<<"6. Delete end."<<endl<<"7. Delete at position."<<endl<<"8. Exit."<<endl;
+    cout<<"Enter choice:";
+		cin>>ch;
+		switch(ch)
+		{
+		case 1:
+			list.display();
+			break;
+		case 2:
+			cout<<"Enter the data to insert:";
+			cin>>key;
+			list.atbeg(key);
+			break;
+		case 3:
+			cout<<"Enter the data to insert:";
+			cin>>key;
+			list.atend(key);
+			break;
+		case 4:
+			cout<<"Enter the data to insert:";
+			cin>>key;
+			cout<<"Enter the position to insert:";
+			cin>>pos;
+			list.atpos(key,pos);
+			break;
+		case 5:
+			list.deletef();
+			break;
+		case 6:
+			list.deletee();
+			break;
+		case 7:
+			cout<<"Enter the position to delete:";
+			cin>>pos;
+			list.deletepos(pos);
+			break;
+		}
+	}
+	return 0;
+}
