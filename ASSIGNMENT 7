@@ -1,0 +1,110 @@
+#include <iostream>
+using namespace std;
+struct Queue
+{
+ int size;
+ int front,rear;
+ int *Q;
+};
+void create(struct Queue *q,int size)
+{
+ q->size = size;
+ q->front = 0;
+ q->rear = 0;
+ q->Q = new int[size];
+}
+void enqueu(struct Queue *q,int x)
+{
+ if( ( (q->rear + 1) % q->size) == q->front)
+ {
+ cout<<"FULL\n";
+ }
+ else
+ {
+ q->rear = (q->rear + 1)%q->size;
+ q->Q[q->rear] = x;
+ }
+}
+int dequeue(struct Queue *q)
+{
+ int x;
+ if(q->front == q->rear)
+ {
+ cout<<"EMPTY\n";
+ }
+ else
+ {
+ q->front = (q->front + 1)%q->size;
+ x = q->Q[q->front];
+ }
+ return x;
+}
+int isEmpty(struct Queue q)
+{
+ if(q.front == q.rear)
+ {
+ return 1;
+ }
+ else
+ {
+ return 0;
+ }
+
+}
+void BFS(int G[][7],int start,int n)
+{
+ int i = start,u;
+ struct Queue q;
+ create(&q,n);
+ int visited[7] = {0};
+ cout<<i<<" ";
+ visited[i] = 1;
+ enqueu(&q,i);
+ while (!isEmpty(q))
+ {
+ u = dequeue(&q);
+ for (int v = 1; v <= n; v++)
+ {
+ if (G[u][v] == 1 && visited[v] == 0)
+ {
+ cout<<v<<" ";
+ visited[v] = 1;
+ enqueu(&q,v);
+ }
+
+ }
+ }
+}
+void DFS(int G[][7],int start,int n)
+{
+ static int visited[7] = {0};
+ if(visited[start] == 0)
+ {
+ cout<<start<<" ";
+ visited[start] = 1;
+ for (int v = 1; v <= n; v++)
+ {
+ if(G[start][v] == 1 && visited[v] == 0)
+ {
+ DFS(G,v,n);
+ }
+ }
+
+ }
+}
+int main()
+{
+int G[7][7]={{0,0,0,0,0,0,0},
+ {0,0,1,1,0,0,0},
+ {0,1,0,0,1,0,0},
+ {0,1,0,0,1,0,0},
+ {0,0,1,1,0,1,1},
+ {0,0,0,0,1,0,0},
+ {0,0,0,0,1,0,0}};
+cout<<"For given graph\n";
+cout<<"BFS is\n";
+BFS(G,3,7);
+cout<<"\nDFS is\n";
+DFS(G,4,7);
+return 0;
+}
